@@ -1,63 +1,53 @@
-
 <ion-content [fullscreen]="true">
-  
   <form (ngSubmit)="entrar_inicio()" #loginForm="ngForm">
-
-
-
     <div>
-
       <h2>Registro de usuarios</h2>
     </div>
-   
+
+    <ion-label class="correo_texto">Correo Electrónico</ion-label>
+    <ion-item class="input-item">
+      <ion-input type="email" placeholder="ejemplo@email.com" (ionInput)="validarCampos()" [(ngModel)]="email" name="email" required></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="!isEmailValid">{{ emailError }}</ion-text>
+    
+    <ion-label class="correo_texto">Nombre Completo</ion-label>
+    <ion-item class="input-item"> 
+      <ion-input type="text" placeholder="Tu nombre" (ionInput)="validarCampos()" [(ngModel)]="fullName" name="fullName" required></ion-input>
+    </ion-item>
 
     <ion-label class="correo_texto">Username</ion-label>
     <ion-item class="input-item">
-      <ion-input type="email" placeholder="Antonio_lopez" (ionInput)="validarCampos()" [(ngModel)]="email" name="email" required></ion-input>
+      <ion-input type="text" placeholder="Antonio_lopez" (ionInput)="validarCampos()" [(ngModel)]="username" name="username" required></ion-input>
     </ion-item>
-  
-    <ion-text color="danger" *ngIf="loginForm.controls['email']?.invalid && loginForm.controls['email']?.touched">
-     Correo electrónico inválido.
-    </ion-text>
-    <br>
-    <br>
+
     <ion-label class="contra_texto">Contraseña</ion-label>
     <ion-item class="input-item">
       <ion-input type="password" placeholder="••••••••" (ionInput)="validarCampos()" [(ngModel)]="password" name="password" required></ion-input>
-
     </ion-item>
-    <ion-text color="danger" *ngIf="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched">
-      Contraseña incorrecta
-    </ion-text> 
+
+    <ion-label class="contra_texto">Confirmar Contraseña</ion-label>
+    <ion-item class="input-item">
+      <ion-input type="password" placeholder="••••••••" (ionInput)="validarCampos()" [(ngModel)]="confirmPassword" name="confirmPassword" required></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="!passwordsMatch">{{ passwordError }}</ion-text>
+
+    <ion-label class="contra_texto">Fecha de Nacimiento</ion-label>
+    <ion-item class="input-item" id="calendario">
+      <ion-datetime presentation="date" (ngModelChange)="validarCampos()" [(ngModel)]="birthdate" name="birthdate" required></ion-datetime>
+    </ion-item>
+
     <ion-button expand="block" type="submit" [disabled]="!isValid">Ingresar</ion-button>
- 
-
-
   </form>
-  
-  <ion-button id="boton-hola" expand="block" (click)="alerta_nino(true)">HI!</ion-button>
 
- 
-
-
-<ion-modal [isOpen]="isModalOpen">
-  <ng-template>
- 
-    <ion-content class="ion-padding">
-      <p>
-        Username:
-       {{ email }}
-      </p>
-      <p>
-        contraseña:
-        {{ password }} 
-
-      </p>
-
-      
-    </ion-content>
-
-  </ng-template>
-</ion-modal>
-
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <p>Nombre Completo: {{ fullName }}</p>
+        <p>UserName: {{username }}</p>
+        <p>Username: {{ email }}</p>
+        <p>Contraseña: {{ password }}</p>
+        <p>Fecha de Nacimiento: {{ birthdate }}</p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
