@@ -79,3 +79,46 @@
     align-items: center;
 
   }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  ion-item {
+    --min-height: 45px;
+  }
+
+  ion-label {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  ion-input {
+    font-size: 14px;
+  }
+
+  ion-button {
+    margin-top: 20px;
+  }
+
+  /* Responsividad para pantallas pequeñas */
+  @media (max-width: 600px) {
+    .form-container {
+      padding: 10px;
+    }
+
+    ion-label, ion-input {
+      font-size: 14px;
+    }
+
+    ion-button {
+      font-size: 16px;
+      padding: 10px;
+    }
+  }
+
+  /* Ajustar el modal */
+  ion-modal {
+    --width: 90%;  /* 90% del ancho de la pantalla */
+    --height: 60%; /* 60% del alto de la pantalla */
+  }

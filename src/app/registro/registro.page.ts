@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms'; 
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-registro',
@@ -28,7 +30,8 @@ export class RegistroPage {
   usuarios: any[] = [];
 
 
-  constructor() {}
+  constructor(private toastController: ToastController) {}
+
 
   alerta_nino(isOpen: boolean) {
     this.isModalOpen = isOpen;
@@ -90,6 +93,9 @@ export class RegistroPage {
 
       console.log("Todos los usuarios registrados . .", this.usuarios);
 
+      this.mostrarToast('Usuario registrado exitosamente!', 'success');
+
+
       this.email = "";
       this.fullName = '';
       this.username = '';
@@ -99,14 +105,22 @@ export class RegistroPage {
       this.isValid = false;
 
 
-      
-
-
-   
     } else {
 
-      alert("No cumples con la validacion");
+      this.mostrarToast("No cumple con la validacion",'warning');
 
     }
   }
+
+  async mostrarToast(mensaje: string, color: string) {
+    const toast = await this.toastController.create({
+      message: mensaje, 
+      duration: 2000,    
+      position: 'top',    // Posición del toast ('top', 'bottom', 'middle')
+      color: color,       // Color del toast ('success', 'danger', 'warning', 'primary', etc.)
+      animated: true, 
+    });
+    toast.present();
+  }
+  
 }
