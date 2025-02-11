@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms'; 
 import { ToastController } from '@ionic/angular';
-
-
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
@@ -13,6 +11,8 @@ import { ToastController } from '@ionic/angular';
   imports: [CommonModule, IonicModule, FormsModule]
 })
 export class RegistroPage {
+
+  //Declaramo cada input 
   email: string = '';
   fullName: string = '';
   username: string = '';
@@ -27,22 +27,10 @@ export class RegistroPage {
   passwordError: string = '';
   isModalOpen = false;
 
+  //Declaro el array para guardar los usuarios
   usuarios: any[] = [];
-
-
+  //Para poder mostrar la alera Toastr
   constructor(private toastController: ToastController) {}
-
-
-  alerta_nino(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-    console.log("Tuvo que llegar TRUE,", this.isModalOpen);
-
-    if (isOpen) {
-      setTimeout(() => {
-        this.isModalOpen = false;
-      }, 5000);
-    }
-  }
 
   validarCampos() {
     this.username = this.username.trim().toLowerCase();
@@ -50,7 +38,7 @@ export class RegistroPage {
     this.confirmPassword = this.confirmPassword.trim().replace(/\s/g, '');
     this.fullName = this.fullName.toUpperCase();
 
-    // Validar email
+    // Validar email 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     this.isEmailValid = emailRegex.test(this.email);
     this.emailError = !this.isEmailValid ? "Correo electrónico no válido" : "";
@@ -68,16 +56,11 @@ export class RegistroPage {
                    this.birthdate !== '';
 
     console.log("Soy validacion . ." + this.isValid);
-
   }
-
   entrar_inicio() {
     this.validarCampos();
-
-
-
     if (this.isValid) {
-
+      //Creo una variable tipo form donde voy a guardar todos los inputs
       const nuevo_usuario = {
         email: this.email,
         fullname: this.fullName,
@@ -85,17 +68,14 @@ export class RegistroPage {
         password: this.password,
         birthdate: this.birthdate
       }
-
-
+      //Agregamos un push en array usuarios
       this.usuarios.push(nuevo_usuario);
-
       console.log("Somos Los Usuarios");
 
       console.log("Todos los usuarios registrados . .", this.usuarios);
-
+      //Mostramos la alerta
       this.mostrarToast('Usuario registrado exitosamente!', 'success');
-
-
+      ///Todos los input lo ponemos vacios
       this.email = "";
       this.fullName = '';
       this.username = '';
@@ -103,15 +83,11 @@ export class RegistroPage {
       this.confirmPassword = '';
       this.birthdate = '';
       this.isValid = false;
-
-
     } else {
-
       this.mostrarToast("No cumple con la validacion",'warning');
-
     }
   }
-
+  ///Funcion para mostrar la alerta Toastr
   async mostrarToast(mensaje: string, color: string) {
     const toast = await this.toastController.create({
       message: mensaje, 
@@ -121,6 +97,5 @@ export class RegistroPage {
       animated: true, 
     });
     toast.present();
-  }
-  
+  }  
 }

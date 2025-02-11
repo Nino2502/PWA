@@ -3,34 +3,38 @@
     <div>
       <h2>Registro de usuarios</h2>
     </div>
-
+    <!-- Input de correo -->
     <ion-label class="correo_texto">Correo Electrónico</ion-label>
     <ion-item class="input-item">
       <ion-input type="email" placeholder="ejemplo@email.com" (ionInput)="validarCampos()" [(ngModel)]="email" name="email" required></ion-input>
     </ion-item>
     <ion-text color="danger" *ngIf="!isEmailValid">{{ emailError }}</ion-text>
-    
+    <br>
+    <br>
+    <!-- Input de nombre completo -->
     <ion-label class="correo_texto">Nombre Completo</ion-label>
     <ion-item class="input-item"> 
       <ion-input type="text" placeholder="Tu nombre" (ionInput)="validarCampos()" [(ngModel)]="fullName" name="fullName" required></ion-input>
     </ion-item>
-
+    <!-- Input de UserName -->
     <ion-label class="correo_texto">Username</ion-label>
     <ion-item class="input-item">
       <ion-input type="text" placeholder="Antonio_lopez" (ionInput)="validarCampos()" [(ngModel)]="username" name="username" required></ion-input>
     </ion-item>
-
+    <!-- Contraseña-->
     <ion-label class="contra_texto">Contraseña</ion-label>
     <ion-item class="input-item">
       <ion-input type="password" placeholder="••••••••" (ionInput)="validarCampos()" [(ngModel)]="password" name="password" required></ion-input>
     </ion-item>
-
+    <!-- Confirma contraseña -->
     <ion-label class="contra_texto">Confirmar Contraseña</ion-label>
     <ion-item class="input-item">
       <ion-input type="password" placeholder="••••••••" (ionInput)="validarCampos()" [(ngModel)]="confirmPassword" name="confirmPassword" required></ion-input>
     </ion-item>
     <ion-text color="danger" *ngIf="!passwordsMatch">{{ passwordError }}</ion-text>
-
+    <br>
+    <br>
+      <!-- Input de fecha de nacimiento-->
     <ion-label class="contra_texto">Fecha de Nacimiento</ion-label>
     <ion-item class="input-item" id="calendario">
       <ion-datetime presentation="date" (ngModelChange)="validarCampos()" [(ngModel)]="birthdate" name="birthdate" required></ion-datetime>
