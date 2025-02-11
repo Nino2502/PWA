@@ -1,0 +1,52 @@
+
+<ion-content [fullscreen]="true">
+  
+  <form (ngSubmit)="entrar_inicio()" #loginForm="ngForm">
+
+    <ion-label class="correo_texto">Username</ion-label>
+    <ion-item class="input-item">
+      <ion-input type="email" placeholder="Antonio_lopez" (ionInput)="validarCampos()" [(ngModel)]="email" name="email" required></ion-input>
+    </ion-item>
+  
+    <ion-text color="danger" *ngIf="loginForm.controls['email']?.invalid && loginForm.controls['email']?.touched">
+     Correo electrónico inválido.
+    </ion-text>
+    <br>
+    <br>
+    <ion-label class="contra_texto">Contraseña</ion-label>
+    <ion-item class="input-item">
+      <ion-input type="password" placeholder="••••••••" (ionInput)="validarCampos()" [(ngModel)]="password" name="password" required></ion-input>
+
+    </ion-item>
+    <ion-text color="danger" *ngIf="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched">
+      Contraseña incorrecta
+    </ion-text> 
+    <ion-button expand="block" type="submit" [disabled]="!isValid">Ingresar</ion-button>
+
+
+  </form>
+  
+  <ion-button id="boton-hola" expand="block" (click)="alerta_nino(true)">HI!</ion-button>
+
+
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+ 
+    <ion-content class="ion-padding">
+      <p>
+        Username:
+       {{ email }}
+      </p>
+      <p>
+        contraseña:
+        {{ password }} 
+
+      </p>
+
+      
+    </ion-content>
+
+  </ng-template>
+</ion-modal>
+
+</ion-content>
