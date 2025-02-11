@@ -3,6 +3,14 @@
   
   <form (ngSubmit)="entrar_inicio()" #loginForm="ngForm">
 
+
+
+    <div>
+
+      <h2>Registro de usuarios</h2>
+    </div>
+   
+
     <ion-label class="correo_texto">Username</ion-label>
     <ion-item class="input-item">
       <ion-input type="email" placeholder="Antonio_lopez" (ionInput)="validarCampos()" [(ngModel)]="email" name="email" required></ion-input>
@@ -22,7 +30,7 @@
       Contraseña incorrecta
     </ion-text> 
     <ion-button expand="block" type="submit" [disabled]="!isValid">Ingresar</ion-button>
-    <a [routerLink]="['/registro']">Registra nuevo usuario</a>
+ 
 
 
   </form>
