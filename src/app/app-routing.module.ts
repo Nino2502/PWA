@@ -12,6 +12,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'registro', loadComponent: () => import('./registro/registro.page').then(m => m.RegistroPage) },
+  {
+    path: 'home-2',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
 ];
 
 @NgModule({

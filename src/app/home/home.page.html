@@ -27,29 +27,29 @@
 
   </form>
   
-  <ion-button id="boton-hola" expand="block" (click)="alerta_nino(true)">HI!</ion-button>
-
- 
 
 
-<ion-modal [isOpen]="isModalOpen">
+<!--Author: Jesus Gonzalez Leal IDGS08 -->
+<ion-modal id="modal-inicio" [isOpen]="isModalOpen" backdropDismiss="false" animated="false">
   <ng-template>
- 
+
     <ion-content class="ion-padding">
-      <p>
-        Username:
-       {{ email }}
-      </p>
-      <p>
-        contraseña:
-        {{ password }} 
+      <div class="loading-container">
 
-      </p>
+        <p class="loading-text">Bienvenido!!</p>
 
-      
+        <img id="imagen-carga" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwWnoXx0UXT2hzTtl8_kl0RfjqvP8CpErCIg&s" alt="Cargando..." class="loading-image" />
+        <ion-spinner id="spinner" name="crescent"></ion-spinner>
+        <p class="loading-text">Cargando...</p>
+      </div>
     </ion-content>
-
   </ng-template>
 </ion-modal>
+
+
+<ion-loading [isOpen]="isloading" message="Iniciando sesión..." spinner="bubbles" duration="5000"></ion-loading>
+
+
+
 
 </ion-content>

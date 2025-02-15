@@ -34,7 +34,9 @@ p{
 }
 
 ion-modal {
+  
   ion-content {
+    margin-top: 90px;
     background-color: #ffffff; /* Fondo blanco */
     color: #000000; /* Texto negro */
   }
@@ -65,4 +67,84 @@ form{
   --border-radius: 30px; /* does nothing */
   border-radius: 30px;
 
+}
+
+
+
+.modal-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8); /* Fondo oscuro para que el spinner y el texto sean visibles */
+  color: rgb(0, 0, 0);
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+
+.loading-text {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(0, 0, 0); /* Texto en blanco */
+}
+
+
+
+#imagen-carga{
+
+  margin-top: 50px;
+
+  text-align: center;
+
+
+  align-items: center;
+
+}
+
+#spinner{
+
+
+  margin-top: 150px;
+
+
+  text-align: center;
+
+  font-family: 'Courier New', Courier, monospace;
+
+}
+
+
+#modal-inicio{
+
+  border-radius: 30px;
+
+
+  text-align: center;
+
+  font-family: 'Courier New', Courier, monospace;
+
+
+
+}
+
+.progress-value ion-progress-bar {
+  height: 20px;
+}
+
+.progress-value span {
+  margin-top: -20px;
+  position: relative;
+  z-index: 100;
+  display: block;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
 }

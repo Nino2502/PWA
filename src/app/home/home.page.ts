@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-home',
@@ -10,8 +12,24 @@ export class HomePage {
   email: string = '';
   password: string = '';
   isValid: boolean = false;
-  isModalOpen = false;
-  constructor() {}
+  isModalOpen = true;
+
+  isloading = false;
+//Author : Jesus Gonzalez Leal IDGS08 (Nino :3)
+//DATE: 15/02/2025
+
+  constructor(private navCtrl: NavController, private ngZone: NgZone) {}
+
+  async ngOnInit(){
+
+    setTimeout(() => {
+
+      this.isModalOpen = false;
+
+
+    },3000);
+
+  }
 
   alerta_nino(isOpen: boolean){
 
@@ -38,8 +56,18 @@ export class HomePage {
 
     this.validarCampos();
     if(this.isValid){
-      ///Aqui mando un true a la funcion para mostrar la modal
-      this.alerta_nino(true);
+
+      this.isloading = true;
+      setTimeout(() => {
+        this.ngZone.run(() => { 
+
+          this.isloading = false;
+          this.navCtrl.navigateForward('/home-2');
+          
+        });
+      }, 5000);
+
+  
     }else{
       alert("No cumple con las condiciones");
       this.isValid = false;
