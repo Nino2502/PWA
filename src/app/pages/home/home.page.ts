@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FirestoreService } from '../../services/firestore.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  constructor() { }
+
+  items: any[] = [];
+
+
+  constructor(private firestoreService: FirestoreService) { }
 
   ngOnInit() {
+    this.firestoreService.getCollection<any>('roles').subscribe(data => {
+      this.items = data;
+      console.log('Datos ROLES . . .:', this.items);
+    });
   }
 
 }

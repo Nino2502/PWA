@@ -40,6 +40,18 @@
       <ion-datetime presentation="date" (ngModelChange)="validarCampos()" [(ngModel)]="birthdate" name="birthdate" required></ion-datetime>
     </ion-item>
 
+
+
+    <ion-item>
+      <ion-select [(ngModel)]="selectRole" (ionChange)="onRoleChange($event)" label="Rol de usuario" placeholder="Selecciona un rol">
+        <ion-select-option *ngFor="let rol of roles" [value]="rol.role">
+          {{ rol.role }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+  
+
     <ion-button expand="block" type="submit" [disabled]="!isValid">Ingresar</ion-button>
   </form>
 
