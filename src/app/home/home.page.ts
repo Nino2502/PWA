@@ -102,11 +102,13 @@ export class HomePage {
 
           setTimeout(() => {
             this.ngZone.run(() => { 
-              this.isloading = false;
+              
               this.navCtrl.navigateForward('/home-2');
+
+              this.isloading = false;
               
             });
-          }, 5000);
+          }, 3000);
 
 
         }else{
@@ -116,11 +118,13 @@ export class HomePage {
           this.isloading = true;
           setTimeout(() => {
             this.ngZone.run(() => { 
-              this.isloading = false;
+              
               this.navCtrl.navigateForward('/home-2');
+
+              this.isloading = false;
               
             });
-          }, 5000);
+          }, 3000);
 
 
         }

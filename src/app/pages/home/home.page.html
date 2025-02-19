@@ -1,6 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Home</ion-title>
+    <ion-buttons slot="end">
+      <ion-button expand="block" routerLink="/home">CERRAR SESIÓN</ion-button>
+      <ion-title>Hola {{ rolUsuario }}</ion-title>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -33,15 +38,20 @@
 
       <ion-item lines="none">
         <ion-buttons slot="end">
-          <ion-button fill="clear" color="secondary" (click)="editarEmpleado(users)">
+          <ion-button *ngIf="rolUsuario === 'admin'" fill="clear" color="secondary" (click)="editarEmpleado(users)">
             <ion-icon slot="icon-only" name="create"></ion-icon>
           </ion-button>
 
-          <ion-button fill="clear" color="danger" (click)="eliminarEmpleado(users.id)">
+          <ion-button *ngIf="rolUsuario === 'admin'" fill="clear" color="danger" (click)="eliminarEmpleado(users.id)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-item>
     </ion-card>
   </ion-list>
+
+  <ion-button *ngIf="rolUsuario === 'admin'" expand="block" color="primary" (click)="agregarEmpleado()" id="boton_agregar">
+    <ion-icon slot="start" name="add"></ion-icon>
+    Agregar Nuevo Empleado
+  </ion-button>
 </ion-content>
