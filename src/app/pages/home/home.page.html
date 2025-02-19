@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>home</ion-title>
+    <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,4 +10,38 @@
       <ion-title size="large">HOME DE BIENVENIDO</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div *ngIf="usuarios.length === 0" class="no-empleados">
+    <p>No hay empleados registrados</p>
+  </div>
+
+  <ion-list *ngIf="usuarios.length > 0">
+    <ion-card *ngFor="let users of usuarios">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="person-circle" color="primary"></ion-icon>
+          {{ users.fullname }}
+        </ion-card-title>
+        <ion-card-subtitle>ID: {{ users.id }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p><strong>Email:</strong> {{ users.email }}</p>
+        <p><strong>Username:</strong> {{ users.username }}</p>
+        <p><strong>last_login:</strong> {{ users.last_login }}</p>
+      </ion-card-content>
+
+      <ion-item lines="none">
+        <ion-buttons slot="end">
+          <ion-button fill="clear" color="secondary" (click)="editarEmpleado(users)">
+            <ion-icon slot="icon-only" name="create"></ion-icon>
+          </ion-button>
+
+          <ion-button fill="clear" color="danger" (click)="eliminarEmpleado(users.id)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-card>
+  </ion-list>
 </ion-content>

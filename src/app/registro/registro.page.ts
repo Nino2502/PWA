@@ -8,6 +8,9 @@ import { FirestoreService } from '../services/firestore.service';
 
 import * as bcrypt from 'bcryptjs';
 
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+
 
 
 
@@ -46,7 +49,7 @@ export class RegistroPage {
   //Declaro el array para guardar los usuarios
   usuarios: any[] = [];
   //Para poder mostrar la alera Toastr
-  constructor(private toastController: ToastController, private firestoreService: FirestoreService) {}
+  constructor(private toastController: ToastController, private firestoreService: FirestoreService,private auth: Auth,) {}
 
   ngOnInit() {
     this.firestoreService.getCollection<any>('roles').subscribe(data => {
@@ -103,18 +106,25 @@ export class RegistroPage {
       try {
 
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(this.password, salt);
+        
 
         const encryptedRole = btoa(this.selectRole);
         //Author : Jesus Gonzalez Leal IDGS08
 
+
+        const hashedPassword = await bcrypt.hash(this.password, 10);
+        const userCredential = await createUserWithEmailAndPassword(this.auth, this.email, this.password);
+        const userId = userCredential.user.uid;
+
+
         const nuevo_usuario = {
+          id: userId,
           email: this.email,
           fullname: this.fullName,
           username: this.username,
           password: hashedPassword, 
           last_login: new Date(),
-          role: encryptedRole
+          role: this.selectRole
         };
         
         // Agregar usuario al array

@@ -1,11 +1,19 @@
-import { Component, NgZone } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component, inject, NgZone } from '@angular/core';
+import { NavController, ToastController } from '@ionic/angular';
 
 import { FirestoreService } from '../services/firestore.service';
 
-import { getAuth, signInWithEmailAndPassword } from "@angular/fire/auth";
+import { Auth, getAuth, signInWithEmailAndPassword } from "@angular/fire/auth";
+
+
+
+
+
+import {  collectionData, addDoc, getDocs, query, where, DocumentData} from '@angular/fire/firestore';
 
 import * as bcrypt from 'bcryptjs';
+import { Firestore } from '@angular/fire/firestore';
+import { collection, QuerySnapshot } from 'firebase/firestore';
 
 @Component({
   selector: 'app-home',
@@ -20,10 +28,17 @@ export class HomePage {
   isModalOpen = true;
 
   isloading = false;
+
+
+  private firestore = inject(Firestore);
+
+  private auth = inject(Auth);
+
+
 //Author : Jesus Gonzalez Leal IDGS08 (Nino :3)
 //DATE: 15/02/2025
 
-  constructor(private navCtrl: NavController, private ngZone: NgZone,private firestoreService: FirestoreService) {}
+  constructor(private navCtrl: NavController, private ngZone: NgZone,private firestoreService: FirestoreService, private toastController: ToastController) {}
   async ngOnInit(){
     setTimeout(() => {
       this.isModalOpen = false;
@@ -38,33 +53,91 @@ export class HomePage {
     //Author: Jesus Gonzalez Leal IDGS08
     this.isloading = true;
     try {
-      const auth = getAuth();
-      const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
-      const user = userCredential.user;
-      
-      if (user) {
-        const userDoc = await this.firestoreService.getDocument('users', user.uid);
-        if (userDoc) {
-          console.log('Datos del usuario:', userDoc);
-          
-          const storedHashedPassword = userDoc['password'];
-          const passwordMatch = await bcrypt.compare(this.password, storedHashedPassword);
-          
-          if (passwordMatch) {
-            this.ngZone.run(() => {
+
+  
+
+      console.log("Soy CORREO . . ", this.email);
+
+      console.log("Soy PASSWORD . .", this.password);
+
+
+
+      const userCredential = await signInWithEmailAndPassword(this.auth, this.email, this.password);
+
+
+      const userId = userCredential.user.uid;
+
+      console.log("Soy el userId..", userId);
+
+
+      const usersCollection = collection(this.firestore,'users');
+      const id_validacion = query(usersCollection, where('id', '==',userId ));
+
+      const consulta = await getDocs(id_validacion);
+
+
+      if(!consulta.empty){
+
+        const userData: DocumentData = consulta.docs[0].data();
+
+        const userRole = userData['role'];
+
+        const userPermisos = await this.getPermissions(userRole);
+
+
+        const token = JSON.stringify({
+          uid: userId,
+          role: userRole,
+          permissions: userPermisos,
+        });
+
+        localStorage.setItem('token', token);
+        localStorage.setItem('userData', JSON.stringify(userData));
+
+        this.mostrarToast('Inicio de sesion exitoso', 'success');
+    
+        if(userRole === 'admin'){
+
+          this.isloading = true;
+
+          setTimeout(() => {
+            this.ngZone.run(() => { 
               this.isloading = false;
               this.navCtrl.navigateForward('/home-2');
+              
             });
-          } else {
-            alert('Contraseña incorrecta');
-          }
-        } else {
-          alert('No se encontraron datos del usuario en Firestore');
+          }, 5000);
+
+
+        }else{
+
+
+
+          this.isloading = true;
+          setTimeout(() => {
+            this.ngZone.run(() => { 
+              this.isloading = false;
+              this.navCtrl.navigateForward('/home-2');
+              
+            });
+          }, 5000);
+
+
         }
+
+
+      }else{
+
+
+        this.mostrarToast('Usuario no encontrado en la base de datos', 'warning');
       }
+
+
+
+ 
     } catch (error) {
       console.error('Error en el login:', error);
-      alert('Error al iniciar sesión: ');
+
     } finally {
       this.isloading = false;
     }
@@ -94,4 +167,29 @@ export class HomePage {
       }, 5000);
     }
   }
+
+  async getPermissions(role: string): Promise<string[]> {
+    const rolesCollection = collection(this.firestore, 'roles');
+    const q = query(rolesCollection, where('role', '==', role));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const roleData = querySnapshot.docs[0].data();
+      return roleData['permissions'] || [];
+    }
+    return [];
+  }
+
+
+    ///Funcion para mostrar la alerta Toastr
+    async mostrarToast(mensaje: string, color: string) {
+      const toast = await this.toastController.create({
+        message: mensaje, 
+        duration: 2000,    
+        position: 'top',    // Posición del toast ('top', 'bottom', 'middle')
+        color: color,       // Color del toast ('success', 'danger', 'warning', 'primary', etc.)
+        animated: true, 
+      });
+      toast.present();
+    } 
 }
