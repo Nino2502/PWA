@@ -76,8 +76,64 @@ export class HomePage implements OnInit {
   }
 
 
-  editarEmpleado(users : any){
+  async editarEmpleado(users : any){
     console.log("Soy editrar empleo. .", users);
+
+    const alert = await this.alertController.create({
+      header: 'Editar Nuevo Usuario',
+      inputs: [
+        { name: 'fullName', type: 'text', placeholder: 'Nombre Completo', value: users.fullname },
+        { name: 'username', type: 'text', placeholder: 'Username', value: users.username },
+        { name: 'email', type: 'email', placeholder: 'Correo Electrónico', value: users.email },
+        {name: 'rol', type: 'text', placeholder: 'Rol Usuario', value: users.role}
+      ],
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Guardar',
+          handler: async (data) => {
+
+  
+            try {
+
+  
+              const newData = {
+                id: users.id,
+                fullname: data.fullName.toUpperCase(),
+                username: data.username.trim().toLowerCase(),
+                email: data.email,
+                password: users.password,
+                last_login: new Date(),
+                role: data.rol,
+              };
+
+              console.log("Soi los datos de los USUARIOS. .  .", newData);
+
+
+
+       
+
+        
+  
+              await this.firestoreService.updateDocument('users', users.id, newData);
+
+              this.usuarios.push(newData);
+              this.mostrarToast("Usuario se registro exitosamente!!", "success");
+  
+              return true;
+            } catch (error) {
+              console.error("Error al registrar usuario:", error);
+              this.mostrarToast("Error al registrar usuario", "danger");
+              return false;
+            }
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
+
+
   }
 
   eliminarEmpleado(id : string){
