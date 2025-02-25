@@ -36,7 +36,9 @@
               "allowedCommonJsDependencies": [
                 "crypto-js",
                 "jsonwebtoken"
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json"
             },
 
           "configurations": {

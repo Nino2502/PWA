@@ -54,52 +54,62 @@ export class HomePage {
     this.isloading = true;
     try {
 
-  
-
-      console.log("Soy CORREO . . ", this.email);
-
-      console.log("Soy PASSWORD . .", this.password);
-
-
-
       const userCredential = await signInWithEmailAndPassword(this.auth, this.email, this.password);
-
-
       const userId = userCredential.user.uid;
-
-      console.log("Soy el userId..", userId);
-
-
       const usersCollection = collection(this.firestore,'users');
       const id_validacion = query(usersCollection, where('id', '==',userId ));
-
       const consulta = await getDocs(id_validacion);
 
 
+      console.log("Soy el id del usuario . . ", userId);
+
+      console.log("Soy validation id . . ", id_validacion);
+
+
+
+
+   
+
       if(!consulta.empty){
-
         const userData: DocumentData = consulta.docs[0].data();
+        console.log("Soy USERDATA de un USUARIOOOO. . ", userData);
 
+
+        const id_usuario = userData['id'];
+
+        
         const userRole = userData['role'];
-
         const userPermisos = await this.getPermissions(userRole);
-
-
         const token = JSON.stringify({
           uid: userId,
           role: userRole,
           permissions: userPermisos,
         });
 
+        
+      this.firestoreService.actualizar_login('users', id_usuario)
+      .then(() => console.log("LAST_LOGIN GUARDADO"))
+      .catch(error => console.error("Error al guardar last_login usuario:", error));
+
+
+
         localStorage.setItem('token', token);
         localStorage.setItem('userData', JSON.stringify(userData));
 
         this.mostrarToast('Inicio de sesion exitoso', 'success');
+
+
+
+
+
     
         if(userRole === 'admin'){
 
           this.isloading = true;
 
+          
+
+
           setTimeout(() => {
             this.ngZone.run(() => { 
               
@@ -110,11 +120,7 @@ export class HomePage {
             });
           }, 3000);
 
-
         }else{
-
-
-
           this.isloading = true;
           setTimeout(() => {
             this.ngZone.run(() => { 
@@ -125,8 +131,6 @@ export class HomePage {
               
             });
           }, 3000);
-
-
         }
 
 

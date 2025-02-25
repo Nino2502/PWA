@@ -22,22 +22,11 @@ import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
   standalone: false
 })
 export class HomePage implements OnInit {
-
   user: any;
-
   roles: any[] = [];
-
-
   data: any[] = [];
-
-
-
-
   usuarios: any[] = [];
-
   rolUsuario : string = '';
-
-
 
   constructor(private firestoreService: FirestoreService, private alertController: AlertController, private toastController: ToastController, private auth: Auth) { }
 
@@ -71,11 +60,9 @@ export class HomePage implements OnInit {
 
     }else{
       console.log("No hay datos en localStorge");
-    
+   
     }
   }
-
-
   async editarEmpleado(users : any){
     console.log("Soy editrar empleo. .", users);
 
@@ -92,11 +79,7 @@ export class HomePage implements OnInit {
         {
           text: 'Guardar',
           handler: async (data) => {
-
-  
             try {
-
-  
               const newData = {
                 id: users.id,
                 fullname: data.fullName.toUpperCase(),
@@ -106,20 +89,11 @@ export class HomePage implements OnInit {
                 last_login: new Date(),
                 role: data.rol,
               };
-
               console.log("Soi los datos de los USUARIOS. .  .", newData);
-
-
-
-       
-
-        
-  
               await this.firestoreService.updateDocument('users', users.id, newData);
-
               this.usuarios.push(newData);
               this.mostrarToast("Usuario se registro exitosamente!!", "success");
-  
+
               return true;
             } catch (error) {
               console.error("Error al registrar usuario:", error);
@@ -151,7 +125,6 @@ export class HomePage implements OnInit {
       this.mostrarToast("Cargando roles, intenta de nuevo", "warning");
       return;
     }
-  
     const alert = await this.alertController.create({
       header: 'Agregar nuevo empleado',
       inputs: [
@@ -174,16 +147,11 @@ export class HomePage implements OnInit {
         {
           text: 'Guardar',
           handler: async (data) => {
-            if (!data.selectRole) {
-              this.mostrarToast("Debe seleccionar un rol", "warning");
-              return false;
-            }
-  
+
             try {
               const hashedPassword = await bcrypt.hash(data.password, 10);
               const userCredential = await createUserWithEmailAndPassword(this.auth, data.email, data.password);
               const userId = userCredential.user.uid;
-  
               const newData = {
                 id: userId,
                 fullname: data.fullName.toUpperCase(),
@@ -193,11 +161,6 @@ export class HomePage implements OnInit {
                 last_login: new Date(),
                 role: data.selectRole,
               };
-
-              console.log("Soi los datos de los USUARIOS. .  .", newData);
-
-        
-  
               await this.firestoreService.addDocument('users', newData);
               this.usuarios.push(newData);
               this.mostrarToast("Empleado agregado exitosamente", "success");

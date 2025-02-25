@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, addDoc, doc, getDoc, deleteDoc, updateDoc} from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, addDoc, doc, getDoc, deleteDoc, updateDoc, Timestamp} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+
+import {query, where, getDocs } from "firebase/firestore"; 
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,33 @@ export class FirestoreService {
     const docSnap = await getDoc(docRef);
     return docSnap.exists() ? docSnap.data() : null;
   }
+
+
+  async actualizar_login(collectionName: string, userId: string) {
+    const usersRef = collection(this.firestore, collectionName);
+    const q = query(usersRef, where("id", "==", userId));
+
+    try {
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userDocRef = doc(this.firestore, collectionName, userDoc.id); 
+
+            await updateDoc(userDocRef, { last_login: Timestamp.now() });
+            return true;
+        } else {
+            console.log("No se encontró un usuario con ese ID");
+            return false;
+        }
+    } catch (error) {
+        console.error("Error al actualizar last_login:", error);
+        return false;
+    }
+}
+
+
+
 
   async deleteDocument(collectionName: string, docId: string): Promise<void> {
     try {
