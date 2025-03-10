@@ -1,0 +1,83 @@
+/* Centrar todo el contenido */
+ion-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Estilo del texto */
+#texto {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Contenedor del botón */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Botón más pequeño y centrado */
+#boton-camara {
+    font-size: 14px;
+    padding: 10px 25px;
+}
+
+/* Contenedor de la imagen centrada */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Imagen más pequeña, centrada y sin recortes */
+img {
+    width: 20%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Filtros */
+.none {
+    filter: none;
+}
+.grayscale {
+    filter: grayscale(100%);
+}
+.sepia {
+    filter: sepia(100%);
+}
+.blur {
+    filter: blur(5px);
+}
+.invert {
+    filter: invert(100%);
+}
+.contrast {
+    filter: contrast(200%);
+}
+.pop {
+    filter: saturate(150%) contrast(120%);
+}
+.brightness {
+    filter: brightness(150%);
+}
+.saturate {
+    filter: saturate(200%);
+}
+.hue-rotate {
+    filter: hue-rotate(90deg);
+}

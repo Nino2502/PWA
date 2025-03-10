@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Camara</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Texto informativo -->
+  <h1 id="texto">Aquí va ir para activar la cámara</h1>
+
+  <!-- Contenedor con los filtros -->
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="selectedFilter" scrollable>
+      <ion-segment-button value="none">Normal</ion-segment-button>
+      <ion-segment-button value="grayscale">Grayscale</ion-segment-button>
+      <ion-segment-button value="sepia">Sepia</ion-segment-button>
+      <ion-segment-button value="blur">Blur</ion-segment-button>
+      <ion-segment-button value="invert">Invert</ion-segment-button>
+      <ion-segment-button value="contrast">High Contrast</ion-segment-button>
+      <ion-segment-button value="pop">Pop</ion-segment-button>
+      <ion-segment-button value="brightness">Brightness</ion-segment-button>
+      <ion-segment-button value="saturate">Saturate</ion-segment-button>
+      <ion-segment-button value="hue-rotate">Hue Rotate</ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <!-- Contenedor del botón centrado -->
+  <div class="button-container">
+    <ion-button id="boton-camara" (click)="takePicture()">Tomar Foto</ion-button>
+  </div>
+
+  <!-- Contenedor de la imagen capturada centrado -->
+  <div *ngIf="capturedImage" class="image-container">
+    <img [src]="capturedImage" alt="Imagen capturada" [class]="selectedFilter"/>
+  </div>
+
+</ion-content>
